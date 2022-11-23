@@ -28,3 +28,6 @@ def solution(arrayA, arrayB):
         res = max(B,res)
 
     return res
+
+
+    
