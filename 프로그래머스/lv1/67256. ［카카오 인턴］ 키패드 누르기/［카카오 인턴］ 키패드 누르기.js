@@ -22,7 +22,7 @@ function solution(numbers, hand) {
         '#': [3, 2],
     }
     
-    const mid_distance = (L_finger, R_finger, target_num, hand) => {
+    const mid_distance = (L_finger, R_finger, target_num) => {
         let left_distance = Math.abs(pos[L_finger][0] - pos[target_num][0]) + Math.abs(pos[L_finger][1] - pos[target_num][1]);
         let right_distance = Math.abs(pos[R_finger][0] - pos[target_num][0]) + Math.abs(pos[R_finger][1] - pos[target_num][1]);
         
@@ -42,7 +42,7 @@ function solution(numbers, hand) {
             answer += "R";
             R_finger = numbers[i];
         }else {
-            answer += mid_distance(L_finger, R_finger, numbers[i], hand);
+            answer += mid_distance(L_finger, R_finger, numbers[i]);
             answer.slice(-1) === "L" ? L_finger = numbers[i] : R_finger = numbers[i];
         }
     }
