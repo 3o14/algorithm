@@ -21,7 +21,7 @@ function solution(wallpaper) {
         }
     }
     
-    E[0] += 1; E[1] += 1;
+    E = E.map(e => e+1);
     answer.push(...S, ...E);
     return answer;
 }
