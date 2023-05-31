@@ -21,4 +21,4 @@ def solution(maps):
     if maps[-1][-1] == 1 :
         return -1
     
-    return maps[-1][-1] if maps[-1][-1] else -1
+    return maps[-1][-1]
