@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,6 +10,7 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		st = new StringTokenizer(br.readLine());
+		StringBuilder sb = new StringBuilder();
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
 		
@@ -19,6 +21,7 @@ public class Main {
 		for(int i = 1; i<=N; i++) {
 			numbers[i] = Integer.parseInt(st.nextToken());
 			sum[i] = sum[i-1] + numbers[i];
+
 		}
 		
 		while(M-- > 0) {
@@ -27,8 +30,10 @@ public class Main {
 			int end = Integer.parseInt(st.nextToken());
 			
 			int subSum = sum[end] - sum[start];
-			System.out.println(subSum);
+			
+			sb.append(subSum).append("\n");
 		}
+		System.out.println(sb);
 		
 	}
 
