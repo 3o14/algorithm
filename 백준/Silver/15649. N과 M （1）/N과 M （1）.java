@@ -1,57 +1,41 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
+	static int n;
+	static int m;
+	static int[] numbers;
+	static boolean[] isCheck;
 
-    static boolean[] visited;
-    static int[] nums;
-    static int[] arr;
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
-        String[] line = br.readLine().split(" ");
-        int N = Integer.parseInt(line[0]);
-        int M = Integer.parseInt(line[1]);
+	static void perm(int cnt) {
+		if (cnt == m) {
+			for (int num:numbers) {
+				System.out.print(num + " ");
+			}
+			System.out.println();
+			return;
+		}
 
-        nums = new int[N];
-        for(int i = 0; i<N; i++){
-            nums[i] = i+1;
-        }
+		for (int i = 0; i < n; i++) {
+			if (!isCheck[i]) {
+				numbers[cnt] = i + 1;
+				isCheck[i] = true;
+				perm(cnt + 1);
+				isCheck[i] = false;
+			}
+		}
+	}
 
-        visited = new boolean[N];
-        arr = new int[M];
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String[] str = br.readLine().split(" ");
+		n = Integer.parseInt(str[0]);
+		m = Integer.parseInt(str[1]);
 
-        combination(N, M, 0);
+		isCheck = new boolean[n];
+		numbers = new int[m];
 
-
-    }
-
-    public static void combination(int N, int M, int index){
-        if(index == M){
-            //printNums(N);
-            for(int n:arr){
-                System.out.print(n + " ");
-            }
-            System.out.println();
-            return;
-        }
-
-        for(int i = 0; i<N; i++){
-            if(visited[i] == false) {
-                visited[i] = true;
-                arr[index] = i + 1;
-                combination(N, M, index + 1);
-                visited[i] = false;
-            }
-        }
-    }
-
-    private static void printNums(int N) {
-        for(int i = 0; i< N; i++){
-            if(visited[i]) System.out.print(nums[i] + " ");
-        }
-        System.out.println();
-    }
+		perm(0);
+	}
 }
