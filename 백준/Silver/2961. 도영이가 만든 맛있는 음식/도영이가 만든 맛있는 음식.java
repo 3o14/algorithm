@@ -1,38 +1,35 @@
-
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-	static int[][] ingredients;
+	static int[] meal1; // 곱
+	static int[] meal2; // 합
+	static int res = 1000000000;
 	static int n;
-	static int min = Integer.MAX_VALUE;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
-
-		st = new StringTokenizer(br.readLine());
-		n = Integer.parseInt(st.nextToken());
-
-		ingredients = new int[n][2];
-		for (int i = 0; i < n; i++) {
+		n = Integer.parseInt(br.readLine());
+		meal1 = new int[n];
+		meal2 = new int[n];
+		for(int i=0;i<n;i++) {
 			st = new StringTokenizer(br.readLine());
-			ingredients[i][0] = Integer.parseInt(st.nextToken());
-			ingredients[i][1] = Integer.parseInt(st.nextToken());
+			meal1[i] = Integer.parseInt(st.nextToken());
+			meal2[i] = Integer.parseInt(st.nextToken());
+			
 		}
-		System.out.println(SubSetSum(0, 0, 1 , 0, 0));
+		making_food(0, 0, 1, 0);
+		System.out.println(res);
 	}
-
-	public static int SubSetSum(int count, int sumB, int sumS, int start, int selectedCount) {
-		if (count == n) {
-			if (selectedCount > 0) {
-				min =  Math.min(Math.abs(sumB - sumS), min);
-				return min;
+	public static void making_food(int input_cnt, int cnt, int meal1_sum, int meal2_sum) {
+		if(cnt == n) {
+			if(input_cnt !=0) {
+				res = Math.min(res, Math.abs(meal1_sum-meal2_sum));
 			}
-			return min; //아무것도 뽑지 않았을 경우는 제외하기 위함
+			return;
 		}
-
-		return Math.min(SubSetSum(count + 1, sumB, sumS, start + 1, selectedCount),
-				
-				SubSetSum(count + 1, sumB + ingredients[start][1], sumS * ingredients[start][0], start + 1, selectedCount+1));
+		making_food(input_cnt, cnt+1, meal1_sum, meal2_sum);
+		making_food(input_cnt+1, cnt+1, meal1_sum*meal1[cnt], meal2_sum+meal2[cnt]);
+		
 	}
 }
