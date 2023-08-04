@@ -20,8 +20,6 @@ public class Main {
 			queue.add(temp);
 		}
 		
-		Iterator iter = queue.iterator();
-		while(iter.hasNext())
-			System.out.print(iter.next() + " ");
+		System.out.println(queue.poll());
 	}
 }
