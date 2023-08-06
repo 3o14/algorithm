@@ -1,21 +1,24 @@
-import java.util.Scanner;
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String n = sc.next();
-        int b = sc.nextInt();
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
 
-        long result = 0;
-        int idx = 0;
-        int num = 0;
-        for (int i = n.length()-1; i >= 0; i--) {
-            char c = n.charAt(i);
-            if (c>='0' && c<='9')
-                num = c - '0';
-            else
-                num = c - 55;
-            result += num * Math.pow(b, idx++);
+public class Main {
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stk = new StringTokenizer(br.readLine());
+        String n = stk.nextToken();
+        int b = Integer.parseInt(stk.nextToken());
+
+        int ans = 0;
+        for (int i = 0; i < n.length(); i++){
+            if ('0' <= n.charAt(i) && n.charAt(i) <= '9'){
+                ans = ans*b + ((int)n.charAt(i) - (int)'0');
+            }
+            else{
+                ans = ans*b + ((int)n.charAt(i) - (int)'A' + 10);
+            }
         }
-        System.out.println(result);
+        System.out.println(ans);
     }
 }
