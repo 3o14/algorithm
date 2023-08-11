@@ -1,37 +1,41 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-	static int N = 9;
-	static int[] nanjang = new int[N];
-	static int[] answer = new int[7];
-	public static void main(String[] args) throws IOException{
+	public static int arr[] = new int[9];
+	public static int nums[] = new int[7];
+	public static StringBuilder sb = new StringBuilder();
+
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		for(int i = 0; i<N; i++) {
-			nanjang[i] = Integer.parseInt(br.readLine());
+
+		for (int i = 0; i < 9; i++) {
+			arr[i] = Integer.parseInt(br.readLine());
 		}
-		
-		combination(0, 0, 0); //count, start;
+		dfs(0, 0);
+		System.out.println(sb);
 	}
 
-	private static void combination(int count, int start, int sum) {
+	public static void dfs(int cnt, int start) {
 		
-		if(count == 7) {
-			if(sum == 100) {
-				for(int num:answer) {
-					System.out.println(num);
+		if (cnt == 7) { 
+			int sum = 0;
+			for (int i = 0; i < 7; i++) {
+				sum += nums[i];
+			}
+			
+			if (sum == 100) {
+				for (int i = 0; i < 7; i++) {
+					sb.append(nums[i]).append("\n");
 				}
+				return;
 			}
 			return;
 		}
-		
-		for(int i = start; i<N; i++) {
-			answer[count] = nanjang[i];
-			combination(count+1, i+1, sum+answer[count]);
-		}
-		
-	}
 
-}
+		for (int i = start; i < 9; i++) {
+			nums[cnt] = arr[i];
+			dfs(cnt + 1, i + 1);
+		}
+	}
+}	
