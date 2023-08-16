@@ -1,60 +1,56 @@
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-	static int[][] video;
-	static String result = "";
-	public static void main(String[] args) throws IOException{
+	
+	static int map[][];
+	static int N, size;
+	static StringBuilder sb = new StringBuilder();
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb =  new StringBuilder();
-		StringTokenizer st;
 		
-		int n = Integer.parseInt(br.readLine());
 		
-		video = new int[n][n];
-		boolean flag = false;
-		for(int i = 0; i<n; i++) {
-			String[] token = br.readLine().split("");
-			for(int j = 0; j<n; j++) {
-				video[i][j] = Integer.parseInt(token[j]);
-				if(video[i][j] == 1) flag = true;
+		N = Integer.parseInt(br.readLine());
+		map = new int[N][N];
+		
+		
+		for(int i = 0; i < N; i++) {
+			String str = br.readLine();
+			
+			for(int j = 0; j < N; j++) {
+				map[i][j] = str.charAt(j) - '0';
 			}
 		}
 		
-		if(!flag) System.out.println(0);
-		else {
-			//분할~~
-//			result = "(";
-			division(0, 0, n);
-//			result += ")";
-		}
-		System.out.println(result);
+		quadTree(0, 0, N);
+		System.out.println(sb);
 	}
-	public static void division(int r, int c, int size) {
-		int sum = 0;
-		for(int i = r; i<r+size; i++) {
-			for(int j = c; j<c+size; j++) {
-				sum += video[i][j];
-			}
+	
+	private static void quadTree(int x, int y, int size) {
+		if(check(x, y, size)) {
+			sb.append(map[x][y]);
+			return;
 		}
 		
-		if(sum == 0) { // 0으로 같음 굿 (기저조검)
-			result += 0;
+		int newSize = size/2;
+		
+		sb.append("(");
+		quadTree(x, y, newSize);
+		quadTree(x, y+newSize, newSize);
+		quadTree(x+newSize, y, newSize);
+		quadTree(x+newSize, y+newSize, newSize);
+		
+		sb.append(")");
+	}
+	
+	private static boolean check(int x, int y, int size) {
+		int temp = map[x][y];
+		for (int i = x; i < x+size; i++) {
+			for (int j = y; j < y+size; j++) {
+				if(map[i][j]!=temp)
+					return false;
+			}
 		}
-		else if(sum == size*size) { // 모두 1로 같음 굿
-			result += 1;
-		}
-		else { // 다름
-			result += "(";
-			division(r, c, size/2); // 제1사분면
-			division(r, c + size/2, size/2); // 제2사분면
-			division(r+size/2, c, size/2); //제3사분면
-			division(r+size/2, c+size/2, size/2); //제4사분면
-			result += ")";
-		}
+		return true;
 	}
 }
