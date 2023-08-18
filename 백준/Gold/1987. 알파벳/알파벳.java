@@ -26,12 +26,11 @@ public class Main {
 		}
 
 		visited = new boolean[26]; // 알파벳 개수~
-
-		dfs(0,0);
+		dfs(0,0, 1);
 		System.out.println(max);
 	}
 
-	public static void dfs(int x, int y) {
+	public static void dfs(int x, int y, int count) {
 
 		visited[alphabet[x][y] - 'A'] = true;
 
@@ -42,17 +41,12 @@ public class Main {
 			if (nextX < 0 || nextY < 0 || nextX >= r || nextY >= c || visited[alphabet[nextX][nextY] - 'A'])
 				continue;
 
-			dfs(nextX, nextY);
-		}
-
-		int count = 0;
-		for (int i = 0; i < 26; i++) {
-			if (visited[i])
-				count++;
+			dfs(nextX, nextY, count+1);
 		}
 		max = Math.max(count, max);
 		
 		visited[alphabet[x][y]-'A'] = false;
 		return;
 	}
+
 }
