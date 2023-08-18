@@ -1,55 +1,76 @@
-import java.util.*;
-import java.io.*;
- 
-public class Main{
- 
-    static int w,h,cnt,white,blue;
-    static char[][] map;
-    static int[] dx = {0,0,1,-1};
-    static int[] dy = {1,-1,0,0};
-    static boolean[][] visit;
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] input = br.readLine().split(" ");
-        w = Integer.parseInt(input[0]); h = Integer.parseInt(input[1]);
-        map = new char[h][w]; visit = new boolean[h][w];
-        for(int i=0;i<h;i++)
-            map[i] = br.readLine().toCharArray();
-        for(int i=0;i<h;i++){
-            for(int j=0;j<w;j++){
-                if(!visit[i][j]) {
-                    char cur=map[i][j];
-                    cnt = 0;
-                    dfs(j, i);
-                    if(cur=='W')
-                        white+=cnt*cnt;
-                    else
-                        blue+=cnt*cnt;
-                }
-            }
-        }
-        System.out.println(white+" "+blue);
-    }
- 
-    private static void dfs(int x, int y) {
-        visit[y][x] = true;
-        cnt++; //dfs가 호출될 때 마다 카운트 수 증가
-        for(int i=0;i< dx.length;i++){
-            int nextX = dx[i]+x;
-            int nextY = dy[i]+y;
-            
-            if(!isRange(nextX,nextY)|| visit[nextY][nextX] )
-                continue;
-            if(map[y][x] == map[nextY][nextX]){ //같은 진영인것끼리만 dfs탐색
-                visit[nextY][nextX]=true;
-                dfs(nextX,nextY);
-            }
-        }
-    }
- 
-    private static boolean isRange(int x, int y) {
-        return x>=0&&y>=0&&x<w&&y<h;
-    }
- 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	static int width;
+	static int height;
+	static String[][] army;
+	static boolean[][] visited;
+	static int[] dx = { -1, 1, 0, 0 };
+	static int[] dy = { 0, 0, -1, 1 };
+	static int count = 0;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+
+		st = new StringTokenizer(br.readLine());
+		width = Integer.parseInt(st.nextToken()); // 가로크기
+		height = Integer.parseInt(st.nextToken()); // 세로크기
+
+		army = new String[height][width];
+		for (int i = 0; i < height; i++) {
+			army[i] = br.readLine().split("");
+		}
+		
+		int blue = 0;
+		int white = 0;
+		visited =  new boolean[height][width];
+	
+		for(int y = 0; y < height; y++) {
+			for(int x = 0; x<width; x++) {
+				if(!visited[y][x]) {
+					count = 0;
+					visited[y][x] = true;
+					dfs(y,x);
+					if(army[y][x].equals("B")) {
+						blue += count * count;
+					}
+					else {
+						white += count * count;
+					}
+				}
+			}
+			
+		}
+		
+		System.out.println( white + " " + blue);
+
+	}
+
+	public static void dfs(int y, int x) { // i = x , j = y
+		
+		String current = army[y][x];
+		count++;
+		for (int i = 0; i < 4; i++) {
+			int nextX = x + dx[i];
+			int nextY = y + dy[i];
+
+			if (!isAvailable(current, nextY, nextX))
+				continue;
+				
+			visited[nextY][nextX] = true;
+			dfs(nextY, nextX);
+		}
+
+	}
+
+	private static boolean isAvailable(String current, int nextY, int nextX) {
+		return nextX >= 0 && nextY >= 0 && nextX < width && nextY < height 
+				&& !visited[nextY][nextX] && current.equals(army[nextY][nextX]);
+	}
 }
- 
