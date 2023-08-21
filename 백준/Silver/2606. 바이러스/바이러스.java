@@ -1,47 +1,42 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
+
 
 public class Main {
-	static ArrayList<Integer>[] networks;
-	static int count = 0;
-	static boolean[] check = new boolean[101];
-
+	static int cnt = 0;
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-		int m = Integer.parseInt(br.readLine());
-		int nums = Integer.parseInt(br.readLine());
-		networks = new ArrayList[m+1];
-
-		for (int i = 0; i <= m; i++) {
-			networks[i] = new ArrayList<Integer>();
+		StringTokenizer st;
+		StringBuilder sb = new StringBuilder();
+		int N = Integer.parseInt(br.readLine());
+		int M = Integer.parseInt(br.readLine());
+		
+		int graph[][] = new int[N+1][N+1];
+		boolean visit[] = new boolean[N+1];
+		
+		for (int i = 0; i < M; i++) {
+			st = new StringTokenizer(br.readLine());
+			int x = Integer.parseInt(st.nextToken());
+			int y = Integer.parseInt(st.nextToken());
+			
+			graph[x][y] = 1;
+			graph[y][x] = 1;
 		}
 
-		for (int i = 0; i < nums; i++) {
-			String[] line = br.readLine().split(" ");
-
-			networks[Integer.parseInt(line[0])].add(Integer.parseInt(line[1]));
-			networks[Integer.parseInt(line[1])].add(Integer.parseInt(line[0]));
-		}
-
-		dfs(1);
-		System.out.println(count-1);
+		dfs(graph, 1, visit);
+		
+		System.out.println(cnt-1);
 	}
-
-	public static void dfs(int index) {
-
-		int n = networks[index].size();
-
-		if (!check[index]) {
-			check[index] = true;
-			count++;
-			for (int i = 0; i < n; i++) {
-				dfs(networks[index].get(i));
+	
+	private static void dfs(int graph[][], int node, boolean visit[]) {
+		visit[node] = true;
+		cnt++;
+		
+		for (int i = 1; i < graph.length; i++) {
+			if (graph[node][i] != 0 && visit[i] == false) {
+				dfs(graph, i, visit);
 			}
 		}
-		return;
+		
 	}
 }
