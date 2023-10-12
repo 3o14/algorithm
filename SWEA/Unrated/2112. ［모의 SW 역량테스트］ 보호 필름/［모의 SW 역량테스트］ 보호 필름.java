@@ -3,11 +3,9 @@ import java.util.*;
 
 class Solution {
 
-	static int D, K, W;
-	static int arr[];
-	static int res;
-	static int [][] map;
-	public static void main(String[] args) throws IOException {
+	static int D, W, K, ans;
+	static int map[][], arr[];
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
@@ -15,16 +13,16 @@ class Solution {
 		int T = Integer.parseInt(br.readLine());
 		
 		for (int tc = 1; tc <= T; tc++) {
-			sb.append("#").append(tc);
+			sb.append("#").append(tc).append(" ");
+			
 			st = new StringTokenizer(br.readLine());
 			D = Integer.parseInt(st.nextToken());
 			W = Integer.parseInt(st.nextToken());
 			K = Integer.parseInt(st.nextToken());
-			res = D;
 			
 			map = new int[D][W];
 			arr = new int[D];
-			
+
 			Arrays.fill(arr, -1);
 			
 			for (int i = 0; i < D; i++) {
@@ -33,51 +31,52 @@ class Solution {
 					map[i][j] = Integer.parseInt(st.nextToken());
 				}
 			}
-		
 			
-			dfs(0, 0);
+			ans = Integer.MAX_VALUE;
+			solving(0, 0);
 			
-			sb.append(" ").append(res).append("\n");
+			sb.append(ans).append("\n");
 		}
 		
 		System.out.println(sb);
 	}
-	private static void dfs(int idx, int cnt) {
-		if(cnt >= res) {
+	
+	private static void solving(int idx, int cnt) {
+		if(cnt >= ans) {
 			return;
 		}
 		
 		if(idx == D) {
 			if(check()) {
-				res = Math.min(res, cnt);				
+				ans = Math.min(ans, cnt);
 			}
 			return;
 		}
-        
+		
 		arr[idx] = -1;
-		dfs(idx+1, cnt);
+		solving(idx+1, cnt);
 		
 		arr[idx] = 1;
-		dfs(idx+1, cnt+1);
-
+		solving(idx+1, cnt+1);
+		
 		arr[idx] = 0;
-		dfs(idx+1, cnt+1);
+		solving(idx+1, cnt+1);
 	}
 	
 	private static boolean check() {
-		int cnt = 0;
-		int a, b;
-		for (int j = 0; j < W; j++) {
+		int cnt = 0, a, b;
+		for (int i = 0; i < W; i++) {
 			cnt = 1;
-			for (int i = 0; i < D-1; i++) {
-				a = map[i][j];
-				b = map[i+1][j];
+			for (int j = 0; j < D-1; j++) {
+				a = map[j][i];
+				b = map[j+1][i];
 				
-				if(arr[i] != -1) {
-					a = arr[i];
+				if(arr[j] != -1) {
+					a = arr[j];
 				}
-				if(arr[i+1] != -1) {
-					b = arr[i+1];
+				
+				if(arr[j+1] != -1) {
+					b = arr[j+1];
 				}
 				
 				if(a == b) {
@@ -86,16 +85,12 @@ class Solution {
 					cnt = 1;
 				}
 				
-				if(cnt >= K) {
-					break;
-				}
+				if(cnt >= K) break;
 			}
 			
-			if(cnt < K) {
-				return false;
-			}
+			if( cnt < K ) return false; 
 		}
-		
 		return true;
 	}
+
 }
