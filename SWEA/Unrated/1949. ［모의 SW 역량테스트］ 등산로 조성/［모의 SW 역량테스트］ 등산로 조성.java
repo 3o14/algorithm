@@ -57,27 +57,27 @@ public class Solution {
         max = Math.max(length, max);
  
         for (int i = 0; i < 4; i++) {
-            int nowR = dr[i] + r;
-            int nowC = dc[i] + c;
+            int nr = dr[i] + r;
+            int nc = dc[i] + c;
  
-            if (nowR >= N || nowR < 0 || nowC >= N || nowC < 0) continue;
-            if (visit[nowR][nowC]) continue;
+            if (nr >= N || nr < 0 || nc >= N || nc < 0) continue;
+            if (visit[nr][nc]) continue;
  
-            if (k == 0) {
-                if (map[nowR][nowC] < height) {
-                    visit[nowR][nowC] = true;
-                    dfs(nowR, nowC, length + 1, map[nowR][nowC], k);
-                    visit[nowR][nowC] = false;
+            if (k == 0) { // 깎을 수 없는 경우
+                if (map[nr][nc] < height) {
+                    visit[nr][nc] = true;
+                    dfs(nr, nc, length + 1, map[nr][nc], k);
+                    visit[nr][nc] = false;
                 }
-            } else {
-                if (map[nowR][nowC] < height) {
-                    visit[nowR][nowC] = true;
-                    dfs(nowR, nowC, length + 1, map[nowR][nowC], k);
-                    visit[nowR][nowC] = false;
-                } else if ((map[nowR][nowC] - k) < height) {
-                    visit[nowR][nowC] = true;
-                    dfs(nowR, nowC, length + 1, height - 1, 0);
-                    visit[nowR][nowC] = false;
+            } else { // 깎을 수 있는 경우 
+                if (map[nr][nc] < height) {
+                    visit[nr][nc] = true;
+                    dfs(nr, nc, length + 1, map[nr][nc], k);
+                    visit[nr][nc] = false;
+                } else if ((map[nr][nc] - k) < height) {
+                    visit[nr][nc] = true;
+                    dfs(nr, nc, length + 1, height - 1, 0);
+                    visit[nr][nc] = false;
                 }
             }
  
