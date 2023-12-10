@@ -1,7 +1,5 @@
 const input = require("fs").readFileSync("/dev/stdin").toString().trim().split("\n");
 const [n, ...testcases] = input;
-var numbers = [];
-
 for (let i = 0; i < n; i++) {
   var count = 1;
   let location = Number(testcases[i * 2].split(' ')[1])
