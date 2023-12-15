@@ -1,5 +1,7 @@
 function solution(bandage, health, attacks) {
     const maxHealth = health;
+    const [bandSum, heal, healSum] = bandage;
+    
     let time = 1, band = 0;
     let attIdx = 0, attSec = null;
     
@@ -12,17 +14,17 @@ function solution(bandage, health, attacks) {
             health -= attacks[attIdx][1];
             band = 0;
             attSec = null;
-            if(attIdx < attacks.length-1) {
+            if(attIdx < attacks.length - 1) {
                 attIdx += 1;
             } else break;
             
             if(health <= 0) return -1;
             
         } else { // 붕대 감기 성공시
-            health += bandage[1];
+            health += heal;
             band++;
-            if(band === bandage[0]) {
-                health += bandage[2];
+            if(band === bandSum) {
+                health += healSum;
                 band = 0;
             }
             
