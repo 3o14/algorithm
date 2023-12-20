@@ -1,10 +1,6 @@
-function solution(numbers, sum=[], ans=0) {
-    sum = Array.from({length: 10}, () => true);
-    for(let i=0; i<numbers.length; i++) {
-        sum[numbers[i]] = false;
+function solution(numbers, sum=0) {
+    for(let i=0; i<10; i++) {
+        if(!numbers.includes(i)) sum += i;
     }
-    for(let i=0; i<sum.length; i++) {
-        ans += sum[i] ? i : 0;
-    }
-    return ans;
+    return sum;
 }
