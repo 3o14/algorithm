@@ -2,7 +2,6 @@ function solution(dartResult) {
     let stack = []
     dartResult.split('').forEach((e, i) => {
         if(!isNaN(e)) { // 숫자일 경우
-            // console.log('숫자', e, ' stack: ', stack)
             if(e === '0') {
                 const pre = stack.pop()
                 if(pre === '1') {
@@ -29,20 +28,17 @@ function solution(dartResult) {
             switch(e) {
                 case '#':
                     const prevs = stack.pop()
-                    // console.log('# i: ', i, ' prev: ', prevs)
                     stack.push(-prevs)
                     break
                 case '*':
 
                     const cur = stack.pop()
                     const prev = stack.pop()
-                    // console.log('* i: ', i, ' prev: ', prev)                    
                     stack.push(prev ? prev*2 : null)
                     stack.push(cur*2)
             }
         }
     })
     
-    // console.log(stack)
     return stack.reduce((prev, sum) => +prev + +sum)
 }
