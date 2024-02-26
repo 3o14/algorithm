@@ -1,6 +1,6 @@
 function solution(keymap, targets) {
     let ans = new Array(targets.length).fill(0)
-    let arr = new Array(26).fill(0)
+    let arr = new Array(26).fill(0) // 각 알파벳의 최소 횟수 정보 담을 배열
     let target = null
     for(let i=0; i<targets.length; i++) {
         target = [...targets[i]]
