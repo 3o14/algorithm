@@ -1,12 +1,15 @@
 function solution(participant, completion) {
-    participant.sort();
-    completion.sort();
-    // console.log(participant);
-    // console.log(completion);
+    let map = new Map()
+    participant = participant.sort()
+    completion = completion.sort()
     
-    for(let i = 0; i < participant.length; i++){
-        if(participant[i] !== completion[i]){
-            return participant[i];
+    participant.forEach((e, i) => {
+        map.set(i, e)
+    })
+    
+    for(const e of map) {
+        if(e[1] !== completion[e[0]]) {
+            return e[1]
         }
     }
 }
