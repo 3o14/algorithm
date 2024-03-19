@@ -31,13 +31,15 @@ function solution(land) {
                 }
                 
             }
+            // 석유 덩어리가 속한 열 전체에 석유량 누적시키기
             if(oilSum > 0) {
-                    for(let idx of colSet) {
-                        oilMap.set(idx, oilMap.has(idx) ? oilMap.get(idx) + oilSum : oilSum)
-                    }
+                for(let idx of colSet) {
+                    oilMap.set(idx, oilMap.has(idx) ? oilMap.get(idx) + oilSum : oilSum)
                 }
+            }
         }
          
    }
+    // 각 열에 석유량이 얼마나 있는지 담긴 oilMap 중 최대값 반환
     return Math.max(...oilMap.values())
 }
