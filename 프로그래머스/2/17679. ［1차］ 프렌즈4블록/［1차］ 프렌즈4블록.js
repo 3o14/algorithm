@@ -19,6 +19,7 @@ function solution(m, n, board, ans=0) {
         board[i] = [...board[i]]
     }
     
+    // 4개가 모여 삭제할 수 있으면 true 반환하는 함수
     const canDelete = (r, c) => {
         const moji = board[r][c]
         if(moji === '-') return false
@@ -32,6 +33,7 @@ function solution(m, n, board, ans=0) {
         return false
     }
     
+    // 블록을 아래로 정렬시키는 함수
     const setDownGraph = () => {
         for(let j=0; j<n; j++) {
             let stack = []
@@ -48,13 +50,14 @@ function solution(m, n, board, ans=0) {
         }
     }
     
+    // 더 삭제할 블록이 없을 때까지 반복
     while(true) {
-         // 4개가 모인 모양 탐색
+         // 그래프 전체 탐색
         for(let i=0; i<m; i++) {
             for(let j=0; j<n; j++) {
-                if(canDelete(i, j)) {
+                if(canDelete(i, j)) { // 삭제할 블록이 있으면
                     let r = i, c = j
-                    for(let d=0; d<dr.length; d++) {
+                    for(let d=0; d<dr.length; d++) { // 4개 전부 큐에 넣어준다.
                         r += dr[d]
                         c += dc[d]
                         queue.push([r, c])
@@ -63,8 +66,10 @@ function solution(m, n, board, ans=0) {
             }
         }
         
-        if(queue.length < 1) return ans
+        // 큐에 아무것도 담기지 않으면(삭제할 블록이 없으면) 종료
+        if(queue.length < 1) return ans 
 
+        // 큐에 있는 삭제할 블록들 삭제하기
         while(queue.length > 0) {
             const [r, c] = queue.pop()
             if(board[r][c] !== '-') {
@@ -73,6 +78,7 @@ function solution(m, n, board, ans=0) {
             }
         }
 
+        // 삭제한 후 블록 재정렬
         setDownGraph()
     }
    
